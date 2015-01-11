@@ -4,8 +4,21 @@ import shutil
 import sys
 
 
+@pytest.fixture(scope='session')
+def gitconfig(request):
+    filename = cmd('git config --global changelog.filename')
+    if not filename:
+        return
+
+    cmd('git config --global --remove-section changelog')
+
+    def teardown():
+        cmd('git config --global changelog.filename "{}"'.format(filename))
+    request.addfinalizer(teardown)
+
+
 @pytest.fixture
-def repository(request, tmpdir):
+def repository(request, gitconfig, tmpdir):
     cmd('cd {dir}; git init'.format(dir=tmpdir))
     hook = '%s/.git/hooks/prepare-commit-msg' % tmpdir
     shutil.copy('preparechangelog.py', hook)
