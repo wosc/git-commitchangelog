@@ -1,13 +1,16 @@
 from preparechangelog import cmd
 import pytest
 import shutil
+import sys
 
 
 @pytest.fixture
 def repository(request, tmpdir):
     cmd('cd {dir}; git init'.format(dir=tmpdir))
-    shutil.copy(
-        'preparechangelog.py', '%s/.git/hooks/prepare-commit-msg' % tmpdir)
+    hook = '%s/.git/hooks/prepare-commit-msg' % tmpdir
+    shutil.copy('preparechangelog.py', hook)
+    cmd('sed -i -e "s+/usr/bin/env python+{}+" {}'.format(
+        sys.executable, hook))
     return str(tmpdir)
 
 
