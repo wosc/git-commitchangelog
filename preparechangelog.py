@@ -13,7 +13,7 @@ def main():
     if mode != 'empty':
         return
 
-    changelog_file = cmd('git config --get changelog.filename').strip()
+    changelog_file = cmd('git config --get changelog.filename')
     if not changelog_file:
         changelog_file = 'CHANGES'
     changelog = normalize_log(get_diff(changelog_file))
@@ -61,7 +61,8 @@ def cmd(cmd):
         cmd, shell=True,
         stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
     stdout, stderr = process.communicate()
-    return stdout
+    # XXX This simply assumes utf8 -- is that feasible?
+    return stdout.strip().decode('utf8')
 
 
 if __name__ == '__main__':
