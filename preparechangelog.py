@@ -47,13 +47,9 @@ def main():
 def get_diff(filename):
     result = []
     diff = cmd('git diff --no-color --staged {}'.format(filename))
-    after_header = False
     for line in diff.splitlines():
-        if after_header and (
-                line.startswith('+') and not line.startswith('+++')):
+        if line.startswith('+') and not line.startswith('+++'):
             result.append(line[1:].rstrip().expandtabs())
-        if line.startswith('@@') and line.endswith('@@'):
-            after_header = True
     return result
 
 
