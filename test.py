@@ -7,14 +7,14 @@ import sys
 
 @pytest.fixture(scope='session')
 def gitconfig(request):
-    filename = cmd('git config --global changelog.filename')
-    if not filename:
+    config = cmd('git config --global --get-regexp changelog')
+    if not config:
         return
 
-    cmd('git config --global --remove-section changelog')
+    cmd('git config --global --rename-section changelog changelogpytest')
 
     def teardown():
-        cmd('git config --global changelog.filename "{}"'.format(filename))
+        cmd('git config --global --rename-section changelogpytest changelog')
     request.addfinalizer(teardown)
 
 
@@ -52,3 +52,11 @@ def test_handles_non_ascii(repository):
     message = cmd('cd {dir}; echo "Ümläut" > CHANGES;'
                   'git add .; EDITOR=cat git commit'.format(dir=repository))
     assert message.startswith(u'Ümläut')
+
+
+def test_result_of_preprocess_is_used_as_message(repository):
+    cmd('cd {dir}; git config changelog.preprocess "lambda x: x.upper()"'
+        .format(dir=repository))
+    message = cmd('cd {dir}; echo "foo" > CHANGES;'
+                  'git add .; EDITOR=cat git commit'.format(dir=repository))
+    assert message.startswith('FOO')

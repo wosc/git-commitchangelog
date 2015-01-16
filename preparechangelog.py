@@ -41,6 +41,12 @@ def main():
         changelog_file = 'CHANGES'
     changelog = normalize_log(get_diff(changelog_file))
 
+    preprocess = cmd('git config --get changelog.preprocess')
+    if preprocess:
+        preprocess = eval(
+            preprocess, {'re': re, '__builtins__': __builtins__})
+        changelog = preprocess(changelog)
+
     with io.open(filename) as f:
         original = f.read()
     with io.open(filename, 'w') as output:

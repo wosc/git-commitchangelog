@@ -24,3 +24,18 @@ your `~/.gitconfig` as follows:
 
     [changelog]
     filename = CHANGES.txt
+
+For some simple preprocessing, you can configure a callable that receives the
+extracted changelog diff as its argument, like this:
+
+    [changelog]
+    preprocess = lambda msg: msg.upper()
+
+You can use the `re` module in the `preprocess` callable, so for a more
+realistic example, to transform "Updated flux compensator (TICKET-123)" into
+"Re TICKET-123: Updated flux compensator", you could use this (note that
+backslashes need to be escaped in the `.gitconfig` file):
+
+    [changelog]
+    preprocess = lambda x: re.sub('(^.*) ?\\(([A-Z]+-[0-9]+)\\)\\.?$', r'Re \\2: \\1', x)
+
