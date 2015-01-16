@@ -1,3 +1,4 @@
+# coding: utf8
 from preparechangelog import cmd
 import pytest
 import shutil
@@ -45,3 +46,9 @@ def test_changelog_filename_is_configurable(repository):
     message = cmd('cd {dir}; echo "foo" > qux; git add .;'
                   'EDITOR=cat git commit'.format(dir=repository))
     assert message.startswith('foo\n')
+
+
+def test_handles_non_ascii(repository):
+    message = cmd('cd {dir}; echo "Ümläut" > CHANGES;'
+                  'git add .; EDITOR=cat git commit'.format(dir=repository))
+    assert message.startswith(u'Ümläut')

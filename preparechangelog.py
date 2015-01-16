@@ -18,6 +18,7 @@
 # this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+import io
 import re
 import subprocess
 import sys
@@ -40,9 +41,9 @@ def main():
         changelog_file = 'CHANGES'
     changelog = normalize_log(get_diff(changelog_file))
 
-    with open(filename) as f:
+    with io.open(filename) as f:
         original = f.read()
-    with open(filename, 'w') as output:
+    with io.open(filename, 'w') as output:
         output.write(changelog)
         output.write(original)
 
