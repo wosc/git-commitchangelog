@@ -28,6 +28,12 @@ def repository(request, gitconfig, tmpdir):
     return str(tmpdir)
 
 
+def test_no_changelog_diff_has_no_effect(repository):
+    message = cmd('cd {dir}; echo "qux" > bar;'
+                  'git add .; EDITOR=cat git commit'.format(dir=repository))
+    assert message.startswith('#')
+
+
 def test_prefills_commit_message_from_changelog_diff(repository):
     message = cmd('cd {dir}; echo "foo" > CHANGES; echo "qux" > bar;'
                   'git add .; EDITOR=cat git commit'.format(dir=repository))

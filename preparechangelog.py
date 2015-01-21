@@ -27,6 +27,12 @@ import sys
 __version__ = '1.0.dev0'
 
 
+if sys.version_info >= (3,):
+    text = str
+else:
+    text = unicode
+
+
 def main():
     filename = sys.argv[1]
     try:
@@ -78,7 +84,7 @@ def normalize_log(lines):
         elif last_indention:
             if not line[:last_indention].strip():
                 lines[idx] = line[last_indention:]
-    return '\n'.join(lines)
+    return text('\n').join(lines)
 
 
 def cmd(cmd):
