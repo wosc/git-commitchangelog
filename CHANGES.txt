@@ -9,6 +9,12 @@ CHANGES
 - Bugfix: handle empty changelog diff.
 
 
+1.1 (2015-01-22)
+----------------
+
+- Brown-bag release.
+
+
 1.0 (2015-01-11)
 ----------------
 
