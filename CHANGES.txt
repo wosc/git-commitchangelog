@@ -4,10 +4,12 @@ CHANGES
 1.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Add preprocess functionality.
+
+- Bugfix: handle empty changelog diff.
 
 
-1.0 (2015-01-22)
+1.0 (2015-01-11)
 ----------------
 
 - First release.
