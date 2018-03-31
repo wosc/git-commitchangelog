@@ -1,6 +1,8 @@
 git-commitchangelog
 ===================
 
+[![image](https://travis-ci.org/wosc/git-commitchangelog.png)](https://travis-ci.org/wosc/git-commitchangelog)
+
 This is a git hook that prefills the commit message with the diff to the
 changelog file. It is inspired by the mercurial extension
 [hgchangelog](https://bitbucket.org/birkenfeld/hgchangelog).
