@@ -7,8 +7,7 @@ This is a git hook that prefills the commit message with the diff to the
 changelog file. It is inspired by the mercurial extension
 [hgchangelog](https://bitbucket.org/birkenfeld/hgchangelog).
 
-The hook is written in Python and requires at least Python 2.7 or Python
-3.3.
+The hook is written in Python and requires at least Python 3.3.
 
 To install it, copy `preparechangelog.py` to
 `.git/hooks/prepare-commit-msg` in your git repository (make sure the
